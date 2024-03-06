@@ -14,7 +14,9 @@ class NotaireController extends Controller
      */
     public function index()
     {
-        //
+        $notaires = Notaire::all();
+        return view('pages.notaire' , compact("notaires"));
+        
     }
 
     /**
@@ -22,9 +24,17 @@ class NotaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $notaire = new Notaire();
+        $notaire->nom = $request->nom;
+        $notaire->prenom = $request->prenom;
+        $notaire->NNI = $request->nni;
+        $notaire->telephone = $request->phone;
+        $notaire->adresse = $request->adress;
+        $notaire->save();
+        return redirect('notaire')->with('status','notaire ajouter avec succes');
     }
 
     /**
@@ -55,9 +65,10 @@ class NotaireController extends Controller
      * @param  \App\Models\Notaire  $notaire
      * @return \Illuminate\Http\Response
      */
-    public function edit(Notaire $notaire)
+    public function edit($id)
     {
-        //
+        $notaire = Notaire::find($id);
+        return view('pages.not_edit' ,compact('notaire'));
     }
 
     /**
@@ -67,9 +78,16 @@ class NotaireController extends Controller
      * @param  \App\Models\Notaire  $notaire
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Notaire $notaire)
+    public function update(Request $request, $id)
     {
-        //
+        $notaire = Notaire::findorFail($id);
+        $notaire->nom = $request->nom;
+        $notaire->prenom = $request->prenom;
+        $notaire->NNI = $request->nni;
+        $notaire->telephone = $request->phone;
+        $notaire->adresse = $request->adress;
+        $notaire->save();
+        return redirect('notaire')->with('status','notaire updated avec succes');
     }
 
     /**
@@ -78,8 +96,9 @@ class NotaireController extends Controller
      * @param  \App\Models\Notaire  $notaire
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notaire $notaire)
+    public function destroy($id)
     {
-        //
+        Notaire::findorFail($id)->delete();
+        return redirect('notaire')->with('status','notaire deleted avec succes');
     }
 }

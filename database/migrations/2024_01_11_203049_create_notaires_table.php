@@ -20,8 +20,6 @@ return new class extends Migration
             $table->integer("NNI");
             $table->string("telephone");
             $table->string("adresse");
-            $table->date("dateNaiss");
-            $table->string("lieuNaiss");
             $table->timestamps();
         });
     }

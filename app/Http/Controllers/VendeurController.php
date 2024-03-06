@@ -7,79 +7,51 @@ use Illuminate\Http\Request;
 
 class VendeurController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $vendeur;
+
+    public function __construct()
+    {
+        $this->vendeur = new Vendeur();
+    }
+
     public function index()
     {
-        //
+        $response['vendeurs'] = $this->vendeur->all();
+        return view('pages.vendeur')->with($response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            
+        ]);
+
+        $this->vendeur->create($request->all());
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Vendeur  $vendeur
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Vendeur $vendeur)
+    public function edit(string $id)
     {
-        //
+        $response['vendeur'] = $this->vendeur->find($id);
+        return view('pages.edit_vend')->with($response);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Vendeur  $vendeur
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vendeur $vendeur)
+    public function update(Request $request, string $id)
     {
-        //
+        $this->validate($request, [
+            // Ajoutez ici les règles de validation pour les champs du formulaire
+        ]);
+
+        $vendeur = $this->vendeur->find($id);
+        $vendeur->update($request->all());
+        return redirect('Vendeur');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vendeur  $vendeur
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Vendeur $vendeur)
+    public function destroy(string $id)
     {
-        //
+        $vendeur = $this->vendeur->find($id);
+        $vendeur->delete();
+        return redirect('Vendeur');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Vendeur  $vendeur
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Vendeur $vendeur)
-    {
-        //
-    }
 }
