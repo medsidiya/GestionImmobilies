@@ -99,9 +99,19 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit(Transaction $transaction)
+    public function edit($id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+    
+        // Retrieve related models using their foreign keys from the transaction
+        $temoins = Temoin::findOrFail($transaction->temoin_id);
+        $notaires = Notaire::findOrFail($transaction->notaire_id);
+        $acheteurs = Acheteur::findOrFail($transaction->acheteur_id);
+        $vendeurs = Vendeur::findOrFail($transaction->vendeur_id);
+        $terrains = terrain::findOrFail($transaction->terrain_id);
+    
+        // Pass the retrieved data to the view
+        return view('pages.editTrans', compact('transaction', 'temoins', 'notaires', 'acheteurs', 'vendeurs', 'terrains'));
     }
 
     /**
@@ -111,9 +121,18 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request,$id)
     {
-        //
+        $transaction = Transaction::findorFail($id);
+        $transaction->vendeur_id = $request->vendeur_id;
+        $transaction->acheteur_id = $request->acheteur_id;
+        $transaction->terrain_id = $request->terrain_id;
+        $transaction->notaire_id = $request->notaire_id;
+        $transaction->temoin_id = $request->temoin_id;
+        $transaction->dateTr = $request->dateTrans;
+        $transaction->save();
+        return redirect('transaction')->with('status','transaction update avec succes');
+        
     }
 
     /**
@@ -122,8 +141,9 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy( $id)
     {
-        //
+        Transaction::findorFail($id)->delete();
+        return redirect('transaction')->with('status','Transaction deleted avec succes');
     }
 }

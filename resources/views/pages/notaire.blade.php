@@ -102,7 +102,9 @@
               <td>{{$notaire->telephone}}</td>
               <td>{{$notaire->adresse}}</td>
               <td class="d-flex justify-content-between align-items-center">
-                  <a href="{{route('notaire.edit', $notaire->id)}}" class="btn btn-primary mr-1" data-bs-toggle="modal" data-bs-targetedittemoin="#edit">Modifier</a>
+                  {{-- <a href="{{route('notaire.edit', $notaire->id)}}" class="btn btn-primary mr-1" data-bs-toggle="modal" data-bs-targetedittemoin="#edit">Modifier</a> --}}
+                  <a href="#editNotaire{{$notaire->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-targetedittemoin="#edit">Modifier</a>
+                  @include('pages.not_edit')
                   {{-- <a href="{{route('notaire.edit',$notaire->id)}}" class="btn btn-primary mr-1" data-bs-toggle="modal" data-bs-targeteditnotaire="#edit">Edit</a> --}}
                   {{-- <a href="#editnotaire{{$notaire->id}}" class="btn btn-primary mr-1" data-bs-toggle="modal" data-bs-targeteditnotaire="#edit">Edit</a> --}}
                   <form action="{{route('notaire.destroy', $notaire->id)}}" method="post">

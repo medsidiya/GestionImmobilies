@@ -35,8 +35,9 @@
                     <input type="text" class="form-control" name="adress" id=""   value="{{$temoin->adresse}}">
                 </div>
             </div>
+            {{-- <button  class="btn btn-secondary" >close</button> --}}
               <div class="modal-footer">
-                <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 <button type="submit" class="btn btn-primary">Update</button>
               </div>
         </form>

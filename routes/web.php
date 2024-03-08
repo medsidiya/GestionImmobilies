@@ -1,5 +1,7 @@
 <?php
- 
+
+use App\Http\Controllers\AcheteController;
+use App\Http\Controllers\AcheteurController;
 use App\Http\Controllers\NotaireController;
 use App\Http\Controllers\TemoinController;
 use App\Http\Controllers\TerrainController;
@@ -33,6 +35,7 @@ Route::get('/terrains/{id}', [App\Http\Controllers\TransController::class, 'fetc
 Route::get('/transaction/print/{id}', [App\Http\Controllers\TransController::class, 'print'])->name('print');
 Route::resource('transaction', TransactionController::class);
 
+// Route::get('acheteur', [AcheteController::class, 'index']);
 
 // routes/web.php
 
@@ -51,7 +54,8 @@ Route::get('/index', function () {
 Route::resource('temoin', TemoinController::class);
 Route::resource('notaire', NotaireController::class);
 Route::resource("/Vendeur", VendeurController::class);
-
+Route::resource("/acheteur", AcheteurController::class);
+Route::resource('terrain', TerrainController::class);
 });
 Auth::routes();
 

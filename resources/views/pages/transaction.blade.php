@@ -223,7 +223,7 @@
     });
 </script>
 
-a{{-- for vendeur  --}}
+{{-- for vendeur  --}}
 <script>
     $(document).ready(function() {
         $('#vendeur_id').change(function() {

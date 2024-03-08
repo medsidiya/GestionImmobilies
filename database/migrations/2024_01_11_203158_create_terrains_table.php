@@ -16,10 +16,8 @@ return new class extends Migration
         Schema::create('terrains', function (Blueprint $table) {
             $table->id();
             $table->string("emplacement");
-            $table->string("superficie");
-            $table->string("description");
             $table->string("surface");
-            $table->integer("prix");
+            $table->biginteger("prix");
             $table->timestamps();
         });
     }

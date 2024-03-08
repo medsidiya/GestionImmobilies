@@ -5,9 +5,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gestion immobilite</title>
-  <link rel="shortcut icon" type="image/png" href="{{asset('assets/auth/images/logos/favicon.png')}}" />
+  <link rel="shortcut icon" type="image/png" href="../imgs/OFFCIEL-logo-lesty-bleu-copie.png" />
+  {{-- <link rel="shortcut icon" type="image/png" href="{{asset('assets/auth/images/logos/favicon.png')}}" /> --}}
   <link rel="stylesheet" href="{{asset('assets/auth/css/styles.min.css')}}" />
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/all.min.css">    
+  <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" >
+  <!--  for font awsome -->
+  <link rel="stylesheet" href="../css/all.min.css">
+  <!-- for font sizing -->
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;500;600;700;800&display=swap" 
+  rel="stylesheet">
+
 </head>
 
 <body>
@@ -35,9 +44,10 @@
               <span class="hide-menu">Home</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+              <a class="sidebar-link" href="{{url('transaction')}}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  {{-- <i class="ti ti-layout-dashboard"></i> --}}
+                  <i class="fa-solid fa-house fa-2x"></i>
                 </span>
                 <span class="hide-menu">Home page</span>
               </a>
@@ -49,7 +59,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{url('temoin')}}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-user-tie fa-2x"></i>
                 </span>
                 <span class="hide-menu">Temoins</span>
               </a>
@@ -58,34 +68,34 @@
               <a class="sidebar-link" href="{{url('notaire')}}" aria-expanded="false">
                 <span>
                   {{-- <i class="ti ti-alert-circle"></i> --}}
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-user-tie fa-2x"></i>
                 </span>
                 <span class="hide-menu">Notaires</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
+              <a class="sidebar-link" href="{{url('Vendeur')}}" aria-expanded="false">
                 <span>
                   {{-- <i class="ti ti-cards"></i> --}}
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-user-tie fa-2x"></i>
                 </span>
                 <span class="hide-menu">vendeurs</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+              <a class="sidebar-link" href="{{url('acheteur')}}" aria-expanded="false">
                 <span>
                   {{-- <i class="ti ti-file-description"></i> --}}
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-user-tie fa-2x"></i>
                 </span>
                 <span class="hide-menu">Achateurs</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+              <a class="sidebar-link" href="{{url('terrain')}}" aria-expanded="false">
                 <span>
                   {{-- <i class="ti ti-typography"></i> --}}
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-panorama fa-2x"></i>
                 </span>
                 <span class="hide-menu">Terrain</span>
               </a>
@@ -94,7 +104,8 @@
               <a class="sidebar-link" href="{{url('transaction')}}" aria-expanded="false">
                 <span>
                   {{-- <i class="ti ti-typography"></i> --}}
-                  <i class="ti ti-article"></i>
+                  <i class="fa-solid fa-money-bill-transfer fa-2x"></i>
+                  
                 </span>
                 <span class="hide-menu">transaction</span>
               </a>
@@ -109,7 +120,19 @@
                   <i class="ti ti-login"></i>
                 </span>
                 <span class="hide-menu">Login</span>
-              </a>
+              
+              <div class="dropdown-menu dropdown-menu-end bg-color-black" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+          </a>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
@@ -178,7 +201,9 @@
       </header>
       <!--  Header End -->
       <div class="container-fluid ">
-        @yield('content')
+        @section('content')
+            the main content
+        @show
       </div>
     </div>
   </div>

@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acheteur;
+use App\Models\acheteurs;
 use Illuminate\Http\Request;
 
 class AcheteurController extends Controller
 {
+    protected $acheteurs;
+    public function __construct()
+    {
+        $this->acheteurs = new Acheteur();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,72 +20,41 @@ class AcheteurController extends Controller
      */
     public function index()
     {
-        //
+        $response['acheteurs'] = $this->acheteurs->all();
+        return view('pages.acheteur')->with($response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            
+        ]);
+
+        $this->acheteurs->create($request->all());
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Acheteur  $acheteur
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Acheteur $acheteur)
+    public function edit(string $id)
     {
-        //
+        $response['acheteur'] = $this->acheteurs->find($id);
+        return view('pages.editAcheteur')->with($response);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Acheteur  $acheteur
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Acheteur $acheteur)
+    public function update(Request $request, string $id)
     {
-        //
+        $this->validate($request, [
+            // Ajoutez ici les règles de validation pour les champs du formulaire
+        ]);
+
+        $acheteurs = $this->acheteurs->find($id);
+        $acheteurs->update($request->all());
+        return redirect('acheteur');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Acheteur  $acheteur
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Acheteur $acheteur)
+    public function destroy(string $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Acheteur  $acheteur
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Acheteur $acheteur)
-    {
-        //
+        $acheteurs = $this->acheteurs->find($id);
+        $acheteurs->delete();
+        return redirect('acheteur');
     }
 }

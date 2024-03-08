@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="mt-2">
-    <h3 class="text-center mb-2">Gestion des Vendeurs</h3>
+    <h3 class="text-center mb-2">Gestion des achateur</h3>
 
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <i class="fas fa-user-plus"></i> Formulaire de Vendeur
+                    <i class="fas fa-user-plus"></i> Formulaire de acheteur
                 </div>
                 <div class="card-body">
                     @if ($errors->any())
@@ -27,7 +27,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('Vendeur.store') }}">
+                    <form method="POST" action="{{ route('acheteur.store') }}">
                         @csrf
                         <div class="form-group row mb-3">
                             <div class="col-md-6">
@@ -68,11 +68,11 @@
 
             <div class="card mt-4">
                 <div class="card-header bg-primary text-white">
-                    <i class="fas fa-list"></i> Liste des Vendeurs
+                    <i class="fas fa-list"></i> Liste des acheteurs
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
-                        <form  action="{{ route('Vendeur.store') }}" method="GET">
+                        <form  action="{{ route('acheteur.store') }}" method="GET">
                             @csrf
                            
                         </form>
@@ -88,21 +88,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($vendeurs as $key => $Vendeur)
+                            @foreach ($acheteurs as $key => $acheteur)
                                 <tr>
                                     <td>{{ ++$key }}</td>
-                                    <td>{{ $Vendeur->nom }}</td>
-                                    <td>{{ $Vendeur->prenom }}</td>
-                                    <td>{{ $Vendeur->NNI }}</td>
-                                    <td>{{ $Vendeur->telephone }}</td>
-                                    <td>{{ $Vendeur->dateNaiss }}</td>
+                                    <td>{{ $acheteur->nom }}</td>
+                                    <td>{{ $acheteur->prenom }}</td>
+                                    <td>{{ $acheteur->NNI }}</td>
+                                    <td>{{ $acheteur->telephone }}</td>
+                                    <td>{{ $acheteur->dateNaiss }}</td>
                                     <td>
-                                        
-                                            <a href="#editVendeur{{$Vendeur->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-targetedittemoin="#edit"><i class="fas fa-pencil-alt"></i>Modifier</a>
-                                            @include('pages.edit_vend')
-                                            <a href="#delate{{$Vendeur->id}}" class="btn btn-danger" data-bs-toggle="modal">supprimer</a>
-                                            @include('pages.delete_vend')
-                                    
+                                        <div class="btn-group">
+                                            {{-- <a href="{{ route('acheteur.edit', $acheteur->id) }}" class="btn btn-primary">
+                                                <i class="fas fa-pencil-alt"></i> Modifier
+                                            </a> --}}
+                                            <a href="#editAchateur{{$acheteur->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-targetedittemoin="#edit">Modifier</a>
+                                            @include('pages.editAcheteur')
+                                            <form action="{{ route('acheteur.destroy', $acheteur->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

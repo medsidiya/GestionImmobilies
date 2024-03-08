@@ -1,178 +1,133 @@
+
 @extends('layouts.auth')
 
 @section('content')
+    
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Laravel 10 Ajax DataTables CRUD (Create Read Update and Delete) - Cairocoders</title>
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-<link  href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
-<div class="container mt-2">
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Laravel 10 Ajax DataTables CRUD (Create Read Update and Delete) </h2>
-            </div>
-            <div class="pull-right mb-2">
-                <a class="btn btn-success" onClick="add()" href="javascript:void(0)"> Create Employee</a>
-            </div>
-        </div>
-    </div>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-    <div class="card-body">
-        <table class="table table-bordered" id="ajax-crud-datatable">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Emplacement</th>
-                    <th>Surface</th>
-                    <th>Prix</th>
-                    <th>Created at</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
- 
-<!-- boostrap employee model -->
-<div class="modal fade" id="employee-modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Employee</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="javascript:void(0)" id="EmployeeForm" name="EmployeeForm" class="form-horizontal" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" id="id">
-                    <div class="form-group">
-                        <label for="emplacement" class="col-sm-2 control-label">emplacement</label>
-                            <div class="col-sm-12">
-                            <input type="text" class="form-control" id="emplacement" name="emplacement" placeholder="Enter Name" maxlength="50" required="">
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        <label for="surface" class="col-sm-2 control-label">surface</label>
-                            <div class="col-sm-12">
-                            <input type="text" class="form-control" id="surface" name="surface" placeholder="Enter Email" maxlength="50" required="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">prix</label>
-                            <div class="col-sm-12">
-                            <input type="text" class="form-control" id="prix" name="prix" placeholder="Enter Address" required="">
-                        </div>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-10"><br/>
-                        <button type="submit" class="btn btn-primary" id="btn-save">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer"></div>
-        </div>
-    </div>
-</div>
-<!-- end bootstrap model -->
-<script type="text/javascript">
-$(document).ready( function () {
-    $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
- 
-    $('#ajax-crud-datatable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ url('ajax-crud-datatable') }}",
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'emplacement', name: 'emplacement' },
-            { data: 'surface', name: 'surface' },
-            { data: 'prix', name: 'prix' },
-            { data: 'created_at', name: 'created_at' },
-            { data: 'action', name: 'action', orderable: false},
-        ],
-        order: [[0, 'desc']]
-    });
-});
- 
-function add(){
-    $('#EmployeeForm').trigger("reset");
-    $('#EmployeeModal').html("Add Employee");
-    $('#employee-modal').modal('show');
-    $('#id').val('');
-}   
+
+  <div class="">
+    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter Terrain</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    
      
-function editFunc(id){
-    $.ajax({
-        type:"POST",
-        url: "{{ url('edit') }}",
-        data: { id: id },
-        dataType: 'json',
-        success: function(res){
-            $('#EmployeeModal').html("Edit Employee");
-            $('#employee-modal').modal('show');
-            $('#id').val(res.id);
-            $('#emplacement').val(res.emplacement);
-            $('#surface').val(res.surface);
-            $('#prix').val(res.prix);
-        }
-    });
-}  
- 
-function deleteFunc(id){
-    if (confirm("Delete Record?") == true) {
-        var id = id;
-        // ajax
-        $.ajax({
-            type:"POST",
-            url: "{{ url('delete') }}",
-            data: { id: id },
-            dataType: 'json',
-            success: function(res){
-                var oTable = $('#ajax-crud-datatable').dataTable();
-                oTable.fnDraw(false);
-            }
-        });
-    }
-}
- 
-$('#EmployeeForm').submit(function(e) {
-    e.preventDefault();
-    var formData = new FormData(this);
-    $.ajax({
-        type:'POST',
-        url: "{{ url('store')}}",
-        data: formData,
-        cache:false,
-        contentType: false,
-        processData: false,
-        success: (data) => {
-            $("#employee-modal").modal('hide');
-            var oTable = $('#ajax-crud-datatable').dataTable();
-            oTable.fnDraw(false);
-            $("#btn-save").html('Submit');
-            $("#btn-save"). attr("disabled", false);
-        },
-        error: function(data){
-            console.log(data);
-        }
-    });
-});
+    <form class="row g-3" action="{{url('terrain/create')}}" method="put">
+      @csrf
+      @method('PUT')
+      <div class="col-md-6">
+          <label class="form-label">Emplacement</label>
+          <input type="text" class="form-control" name="emplacement" placeholder="entre un emplacement" required>
+      </div>
+      <div class="col-md-6">
+          <label class="form-label">Surface</label>
+          <input type="text" class="form-control" name="surface" placeholder="entre un surface" required>
+      </div>
+  
+      <div class="col-md-6">
+          <label class="form-label">Prix</label>
+          <input type="text" class="form-control" name="prix" placeholder="entre le prix" required>
+      </div>
+  
+      <div class="col-12">
+          <button type="submit" class="btn btn-success float-left">Submit</button>
+      </div>
+  </form>
+  
+
+    </div>
+  </div>
+</div>
+{{-- end model  --}}
+    @section('css')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    @endsection
+    @section('content')
+
+    @if (session('status'))
+    <div class="alert alert-success">
+        {{session('status')}}
+    </div>
+@endif
+<ul>
+    @foreach ($errors as $error)
+    <li class="alert alert-danger">{{$error}}</li>
+@endforeach
+</ul>
+
+    {{-- <div class="container"> --}}
+<div class="row mt-5">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-header head-color">
+            <h4>
+              Gestion de terrain
+              <button type="button" class="btn btn-primary float-end fs-3 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">ajouter terrain</button>
+          </h4>
+          </div>
+          <div class="card-body">
+            @if(session('status'))
+<div class="alert alert-primary">{{session('status')}} </div>
+@endif
+  <table class="table table-responsive table-hover col-md-2" id="temoinTable">
+          <thead>
+          <tr class="table-active">
+              <th scope="col">Id</th>
+              <th scope="col">Emplacement</th>
+              <th scope="col">surface</th>  
+              <th scope="col">Prix</th>
+              {{-- <th scope="col">CategorieId</th> --}}
+              <th scope="col">Action</th>
+          </tr>
+          </thead>
+      <tbody>
+          @foreach ($terrains as $terrain)
+          <tr>
+              <td>{{$terrain->id}}</td>
+              <td>{{$terrain->emplacement}}</td>
+              <td>{{$terrain->surface}}</td>
+              <td>{{$terrain->prix}}</td>
+              <td>
+                <a href="#editTer{{$terrain->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-targetedittemoin="#edit">Modifier</a>
+                <a href="#delate{{$terrain->id}}" class="btn btn-danger" data-bs-toggle="modal">supprimer</a>
+                @include('pages.editTerrain')
+                @include('pages.deleteTerrain')
+
+              </td>
+          </tr>
+          @endforeach
+      </tbody>
+  </table>
+          </div>
+      </div>
+  </div>
+  </div>
+
+
+
+@push('scripts')
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+  let table = new DataTable('#temoinTable');
 </script>
+@endpush
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </div>
 </body>
 </html>
 @endsection
